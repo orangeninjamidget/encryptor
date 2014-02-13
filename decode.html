@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Message Decoder</h1>
+    <button id="decrypt" onclick="decryption()">Decode My Message</button>
+
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+
+    <script>
+      function decryption() {
+        var password = prompt("Please enter the password");
+
+        var decoder = {
+          decrypt: function() {
+            var n = window.location.search.length - 1;
+            var encrypted = window.location.search.substr(1,n);
+            var decrypted = CryptoJS.AES.decrypt(encrypted, password);
+            return decrypted;
+          }
+        }
+
+        if (password != null) {
+          alert(decoder.decrypt().toString(CryptoJS.enc.Utf8));
+        }
+
+      }
+    </script>
+
+  </body>
+</html>

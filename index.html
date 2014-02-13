@@ -5,27 +5,30 @@
   </head>
   <body>
     <h1>Message Encoder</h1>
-    <p>This simple page lets you securely encrypt a message with a password. Your message will not leave your computer, and will not be sent over the Internet.</p>
+    <p>This simple page lets you securely encrypt a message with a password. Your message will not leave your computer and will not be sent over the Internet.</p>
     <p>Once it's encoded, you'll be able to share your message with anyone else who has the password.</p>
     <textarea id="message" rows="6" cols="60"></textarea>
     <br>
-    <button id="encrypt">Lock Down</button>
+    <button id="encrypt" onclick="encryption()">Lock Down</button>
 
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
 
     <script>
+    function encryption () {
+      var password = prompt("Please enter a password");
+
       var encoder = {
         setMessage: function() {
-
+          this.message = document.getElementById('message').value;
         },
         getPassword: function() {
-
+          this.password = password;
         },
         setUrl: function() {
-
+          this.url = window.location.origin + "/decode.html?" + this.encrypt().toString();
         },
         replaceMessageWithUrl: function () {
-
+          document.getElementById('message').value = this.url;
         },
         encrypt: function() {
           cypher = CryptoJS.AES.encrypt(this.message, this.password)
@@ -34,12 +37,17 @@
           return cypher
         },
         protect: function() {
-          this.setMessage()
-          this.getPassword()
-          this.setUrl()
-          this.replaceMessageWithUrl()
+          this.setMessage();
+          this.getPassword();
+          this.setUrl();
+          this.replaceMessageWithUrl();
         }
       }
+
+      if (password != null) {
+        encoder.protect();
+      }
+    }
     </script>
   </body>
 </html>
